@@ -18,9 +18,9 @@ if (today.getHours() < 12) {
 /* console.log(today.toLocaleString());
 console.log(today.toISOString()); */
 
-/* const moment = require('moment'); 
+const moment = require('moment'); 
 require('moment-timezone'); 
 moment.tz.setDefault("Asia/Seoul"); 
 let date = moment().format('YYYY-MM-DD HH:mm:ss'); 
-console.log(date); */
+console.log(date);
 
