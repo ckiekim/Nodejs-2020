@@ -16,13 +16,12 @@ rl.on('line', function(buf) {
         let newNumber = number[1] + sum % 10;
         cycle++;
         console.log(number, newNumber, cycle);
-        if (parseInt(orgNumber) === parseInt(newNumber))
+        if (orgNumber === newNumber)
             break;
-        /* if (cycle > 100)
-            break; */
+        if (cycle > 100)
+            break;
         number = newNumber;
     }
-
 
     // 끝날 때 반드시 처리해야 함
     rl.close();
