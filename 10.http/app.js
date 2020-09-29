@@ -16,6 +16,7 @@ http.createServer(function(req, res) {
             fs.readdir('data', function(error, filelist) {
                 let list = template.listGen(filelist);
                 let content = template.HOME_CONTENTS;
+                content = content.replace(/\n/g, '<br>');
                 let control = template.buttonGen();
                 let html = view.index('Web 기술', list, content, control);
                 res.end(html);
@@ -25,8 +26,9 @@ http.createServer(function(req, res) {
                 let list = template.listGen(filelist);
                 let title = query.id;
                 let control = template.buttonGen(title);
-                let filename = 'data/' + title + '.txt';
-                fs.readFile(filename, 'utf8', (error, buffer) => {
+                let filepath = 'data/' + title + '.txt';
+                fs.readFile(filepath, 'utf8', (error, buffer) => {
+                    buffer = buffer.replace(/\n/g, '<br>');
                     let html = view.index(title, list, buffer, control);
                     res.end(html);
                 });
@@ -87,8 +89,8 @@ http.createServer(function(req, res) {
             let list = template.listGen(filelist);
             let title = query.id;
             let control = template.buttonGen();
-            let filename = 'data/' + title + '.txt';
-            fs.readFile(filename, 'utf8', (error, buffer) => {
+            let filepath = 'data/' + title + '.txt';
+            fs.readFile(filepath, 'utf8', (error, buffer) => {
                 let content = template.updateForm(title, buffer);
                 let html = view.index(`${title} 수정`, list, content, control);
                 res.end(html);
@@ -107,7 +109,7 @@ http.createServer(function(req, res) {
             fs.writeFile(filepath, param.description, error => {
                 let encoded = encodeURI(`/?id=${param.subject}`);
                 //console.log(encoded);
-                if (param.original !== param.subject) {
+                /* if (param.original !== param.subject) {
                     fs.rename(filepath, `data/${param.subject}.txt`, error => {
                         res.writeHead(302, {'Location': encoded});
                         res.end();
@@ -115,7 +117,12 @@ http.createServer(function(req, res) {
                 } else {
                     res.writeHead(302, {'Location': encoded});
                     res.end();
+                } */
+                if (param.original !== param.subject) {
+                    fs.renameSync(filepath, `data/${param.subject}.txt`);
                 }
+                res.writeHead(302, {'Location': encoded});
+                res.end()
             });
         }); 
         break;
