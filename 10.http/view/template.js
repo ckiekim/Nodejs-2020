@@ -48,5 +48,14 @@ module.exports = {
             </table>
         </form>
         `;
+    },
+    deleteForm: function(subject) {
+        return `
+        ${subject} 을/를 삭제하시겠습니까?
+        <form action="/delete_proc" method="post">
+            <input type="hidden" name="subject" value="${subject}">
+            <input type="submit" value="삭제"></td>
+        </form>
+        `;
     }
 }
