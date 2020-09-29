@@ -32,30 +32,6 @@ http.createServer(function(req, res) {
             });
         }
         break;
-    case '/create':
-        fs.readdir('data', function(error, filelist) {
-            let list = template.listGen(filelist);
-            let content = template.createForm();
-            let control = template.buttonGen();
-            let html = view.index('글 생성', list, content, control);
-            res.end(html);
-        });
-        break;
-    case '/create_proc':
-        let body = '';
-        req.on('data', function(data) {
-            body += data;
-        })
-        req.on('end', function() {
-            let param = qs.parse(body);
-            //console.log(param.subject, param.description);
-            let filepath = 'data/' + param.subject + '.txt';
-            fs.writeFile(filepath, param.description, error => {
-                res.writeHead(302, {'Location': `/?id=${param.subject}`});
-                res.end();
-            });
-        });
-        break;
     default:
         res.writeHead(404);
         res.end();
