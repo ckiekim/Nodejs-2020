@@ -52,7 +52,9 @@ http.createServer(function(req, res) {
             //console.log(param.subject, param.description);
             let filepath = 'data/' + param.subject + '.txt';
             fs.writeFile(filepath, param.description, error => {
-                res.writeHead(302, {'Location': `/?id=${param.subject}`});
+                let encoded = encodeURI(`/?id=${param.subject}`);
+                console.log(encoded);
+                res.writeHead(302, {'Location': encoded});
                 res.end();
             });
         }); 
@@ -103,13 +105,15 @@ http.createServer(function(req, res) {
             //console.log(param.original, param.subject, param.description);
             let filepath = 'data/' + param.original + '.txt';
             fs.writeFile(filepath, param.description, error => {
+                let encoded = encodeURI(`/?id=${param.subject}`);
+                //console.log(encoded);
                 if (param.original !== param.subject) {
                     fs.rename(filepath, `data/${param.subject}.txt`, error => {
-                        res.writeHead(302, {'Location': `/?id=${param.subject}`});
+                        res.writeHead(302, {'Location': encoded});
                         res.end();
                     });
                 } else {
-                    res.writeHead(302, {'Location': `/?id=${param.subject}`});
+                    res.writeHead(302, {'Location': encoded});
                     res.end();
                 }
             });
